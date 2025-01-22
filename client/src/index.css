@@ -1,0 +1,493 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/*******************************************************
+*************CSS STYLES FOR LOGIN & SIGNUP**************
+********************************************************/
+.container-back-img{
+  background-image: url('./images/quick-chat-app-background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -2;
+}
+.container-back-color{
+  background-color: #878aa3;
+  opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+}
+.container {
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+  width: 500px;
+  height: 350px;
+  padding: 20px 0px;
+  background-color: #ffffff;
+  padding: 10px 30px;
+}
+.column{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form .column input{
+  width: calc(100% / 2 - 2px); 
+} 
+
+.card_title {
+  text-align: center;
+  padding: 10px;
+}
+
+.card_title h1 {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.form input {
+  margin-bottom: 5px;
+  width: 100%;
+  background-color: #efefef;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+}
+
+.form button {
+  background-color: #10da4d;
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  padding: 8px 15px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.card_terms {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.card_terms input[type="checkbox"] {
+  background-color: #e2e2e2;
+}
+
+.card_terms span {
+  margin: 5px;
+  font-size: 13px;
+}
+
+.card a {
+  color: #4796ff;
+  text-decoration: none;
+  margin-left: 5px;
+}
+/********************************************************************
+***************************CSS FOR LOADIER**************************
+********************************************************************/
+
+.loader-overlay{
+  position: fixed; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(216, 152, 144, 0.7); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+ 
+.loader-spinner,
+.loader-spinner:after {
+  box-sizing: border-box;
+}
+.loader-spinner {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.loader-spinner:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid white;
+  border-color: white transparent white transparent;
+  animation: loader-spinner 1.2s infinite;
+}
+@keyframes loader-spinner {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+.home-page{
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content{
+  display: flex;
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px 10px;
+  flex:1;
+}
+/*******************************************************
+********CSS FOR HEADER COMPONENT************************
+********************************************************/
+.app-header{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 10px 30px;
+  justify-content: space-between;
+  border-bottom: #bbb 1px solid;
+}
+
+.app-logo{
+  display: flex;
+  flex-wrap: nowrap;
+  color: #28282B;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+i{
+  margin: 5px 10px;
+}
+
+.app-user-profile{
+  display: flex;
+}
+
+.logged-user-name{
+  color: #28282B;
+  font-weight: bold;
+  padding-top: 10px;
+  padding-right: 20px;
+}
+
+.logged-user-profile-pic{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #5fc190;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+}
+/*******************************************************
+********CSS FOR SIDEBAR COMPONENT************************
+********************************************************/
+.app-sidebar{
+  width: 30%;
+  padding: 0px 20px;
+}
+
+/*******************************************************
+********CSS FOR SEARCH COMPONENT************************
+********************************************************/
+
+.user-search-area{
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.user-search-text{
+  width: 100%;
+  height: 40px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  color: #28282B;
+  border: #ddd 1px solid;
+}
+
+.user-search-btn{
+  position: absolute;
+  right: 10px;
+  font-size: 25px;
+  color: #2ee84a;
+}
+
+/*******************************************************
+********CSS FOR USER LIST COMPONENT*********************
+********************************************************/
+.filtered-user{
+  border-bottom: white 1px solid;
+  padding: 10px 10px;
+  color: #ffffff;
+  cursor: pointer;
+  background-color: rgb(65, 67, 65);
+  border-radius: 8px;
+  
+}
+.selected-user{
+  border-bottom: #ccc 1px solid;
+  margin:0px;
+  padding: 10px 10px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  background-color: #2b6e53;
+  border-radius: 8px;
+}
+
+
+.filter-user-display{
+  display: flex;
+  flex-wrap: wrap;
+}
+.filter-user-details{
+  width: 60%;
+}
+.user-display-name{
+  padding: 1px 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.user-display-email{
+  padding: 1px 20px;
+  font-size: 12px;
+}
+.not-found{
+  padding: 1px 20px;
+  font-size: 12px;
+}
+.selected-user-avatar{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(44, 215, 46);
+  color: #e74c3c;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+}
+.user-default-profile-pic, .user-profile-image,.user-selected-avatar{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #2eeb4a;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+}
+.user-default-profile-pic{
+          background-color:#2eeb4a;
+          color: white;
+}
+
+.user-selected-avatar{
+  background-color: white;
+  color: #2eeb4a;
+}
+.user-start-chat{
+  padding: 10px 0px;
+}
+.user-start-chat-btn{
+  padding: 10px 5px;
+  border: none;
+  border-radius: 3px;
+  background-color: #44cd32;
+  color: white;
+}
+/*******************************************************
+*************CSS STYLES FOR CHAT AREA**************
+********************************************************/
+
+.app-chat-area{
+  background-color: white;
+  width: 70%;
+  padding: 20px 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 70vh;
+}
+
+/*******************************************************
+*************CSS STYLES FOR CHAT AREA HEADER************
+********************************************************/
+.app-chat-area-header{
+    padding: 10px 30px;
+    margin-bottom: 20px;
+    border-bottom: #bbb 1px solid;
+    text-align: right;
+    font-weight: bold;
+    color: #40b640;
+}/*******************************************************
+********CSS STYLES FOR CHAT AREA & CHAT INPUT***********
+********************************************************/
+.main-chat-area{
+  flex: 1
+}
+
+.send-message-div{
+  position: relative;
+}
+
+.send-message-input{
+  width: 100%;
+  height: 40px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: #28282B;
+  border: #ddd 1px solid;
+}
+
+.send-message-btn{
+  position: absolute;
+  right: 10px;
+  font-size: 25px;
+  color: #46ed6a;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  margin-top: 10px;
+}
+/*******************************************************
+***************CSS FOR CHAT MESSAGES********************
+********************************************************/
+.message-container{
+  display: flex;
+}
+.send-message, .received-message{
+   padding: 10px 20px;
+  margin-top: 5px;
+ 
+  font-size: 14px;
+  width: fit-content;
+  border-radius: 11px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 10px;
+  word-wrap: break-word; 
+  
+}
+
+.send-message{ 
+  background-color:#305c4a ;
+  color: white;
+  margin-left: 100px;
+   border-top-right-radius:0px ;
+}
+
+.received-message{ 
+  background-color:rgb(39, 35, 35) ;
+  color: white;
+  margin-right: 100px;
+  border-bottom-left-radius: 0px;
+  
+}
+.message-timestamp{
+  font-size: 12px;
+  width: fit-content;
+}
+/* .send-message, .received-message {
+  padding: 10px 20px;
+  margin-top: 5px;
+  font-size: 14px;
+  max-width: 70%;
+  width: fit-content;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 10px;
+  word-wrap: break-word;
+  position: relative; /* Required for pseudo-elements */
+/* } */
+
+/* .send-message { */
+  /* background-color: #305c4a; */
+  /* color: white; */
+  /* margin-left: auto; Aligns to the right */
+/* } */
+
+/* .send-message::before {
+  content: "";
+  position: absolute; */
+  /* top: 0; Ensures triangle starts from the top edge of the bubble */
+  /* right: -8px; Positions the triangle to connect seamlessly */
+  /* width: 0; */
+  /* height: 0; */
+  /* border-style: solid; */
+  /* border-width: 8px 6px 6px 10px; 
+  Creates a smoother, less sharp triangle */
+
+  /* border-color: transparent transparent transparent #305c4a; */
+/* } */
+
+/* .received-message {
+  background-color: rgb(39, 35, 35);
+  color: white; */
+  /* margin-right: auto;  */
+  /* Aligns to the left */
+/* } */
+
+/* .received-message::before {
+  content: "";
+  position: absolute;
+  /* top: 0; /* Ensures triangle starts from the top edge of the bubble */
+  /* left: -8px */
+   /* Positions the triangle to connect seamlessly */
+  /* width: 0; */
+  /* height: 0; */
+  /* border-style: solid; */
+  
+  /* border-width: 6px 10px 8px 6px;  */
+  /* Creates a smoother, less sharp triangle */
+  /* border-color: transparent rgb(39, 35, 35) transparent transparent; */
+/* } */ 

@@ -1,0 +1,15 @@
+import express from 'express';
+import cors from 'cors';
+import authRoutes from './controllers/authController.js';
+//import UserRoutes from './controllers/userController.js';
+import UserRoutes from './controllers/userController.js';
+import ChatRoutes from './controllers/chatController.js';
+import MessageRoutes from "./controllers/messageControllers.js";
+const app=express();
+app.use(express.json());
+app.use(cors());
+app.use('/api/auth',authRoutes);
+app.use('/api/user',UserRoutes);
+app.use('/api/chat',ChatRoutes);
+app.use('/api/message',MessageRoutes);
+export { app};

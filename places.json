@@ -1,0 +1,496 @@
+[
+    {
+      "place_name": "Hyderabad",
+      "latitude": 17.385044,
+      "longitude": 78.486671,
+      "nearby": [
+        {
+          "name": "Hotel Taj Krishna",
+          "category": "Hotel",
+          "latitude": 17.405,
+          "longitude": 78.475
+        },
+        {
+          "name": "Paradise Restaurant",
+          "category": "Restaurant",
+          "latitude": 17.399,
+          "longitude": 78.477
+        },
+        {
+          "name": "Bikanervala",
+          "category": "Restaurant",
+          "latitude": 17.392,
+          "longitude": 78.486
+        },
+        {
+          "name": "Trident Hyderabad",
+          "category": "Hotel",
+          "latitude": 17.425,
+          "longitude": 78.485
+        },
+        {
+          "name": "The Westin Hyderabad",
+          "category": "Hotel",
+          "latitude": 17.422,
+          "longitude": 78.452
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Charminar",
+          "latitude": 17.3616,
+          "longitude": 78.4747
+        },
+        {
+          "name": "Golconda Fort",
+          "latitude": 17.3846,
+          "longitude": 78.4012
+        }
+      ]
+    },
+    {
+      "place_name": "Mumbai",
+      "latitude": 19.0760,
+      "longitude": 72.8777,
+      "nearby": [
+        {
+          "name": "The Oberoi",
+          "category": "Hotel",
+          "latitude": 19.077,
+          "longitude": 72.877
+        },
+        {
+          "name": "Marine Drive",
+          "category": "Restaurant",
+          "latitude": 19.035,
+          "longitude": 72.825
+        },
+        {
+          "name": "Bademiya",
+          "category": "Restaurant",
+          "latitude": 18.963,
+          "longitude": 72.829
+        },
+        {
+          "name": "The Taj Mahal Palace",
+          "category": "Hotel",
+          "latitude": 18.921,
+          "longitude": 72.833
+        },
+        {
+          "name": "The Leela Mumbai",
+          "category": "Hotel",
+          "latitude": 19.090,
+          "longitude": 72.868
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Gateway of India",
+          "latitude": 18.9219,
+          "longitude": 72.8347
+        },
+        {
+          "name": "Chhatrapati Shivaji Maharaj Terminus",
+          "latitude": 18.940,
+          "longitude": 72.835
+        }
+      ]
+    },
+    {
+      "place_name": "Delhi",
+      "latitude": 28.6139,
+      "longitude": 77.2090,
+      "nearby": [
+        {
+          "name": "The Imperial",
+          "category": "Hotel",
+          "latitude": 28.612,
+          "longitude": 77.222
+        },
+        {
+          "name": "Khan Market",
+          "category": "Restaurant",
+          "latitude": 28.594,
+          "longitude": 77.224
+        },
+        {
+          "name": "Bukhara",
+          "category": "Restaurant",
+          "latitude": 28.621,
+          "longitude": 77.221
+        },
+        {
+          "name": "ITC Maurya",
+          "category": "Hotel",
+          "latitude": 28.598,
+          "longitude": 77.209
+        },
+        {
+          "name": "Taj Palace Hotel",
+          "category": "Hotel",
+          "latitude": 28.589,
+          "longitude": 77.193
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Red Fort",
+          "latitude": 28.656,
+          "longitude": 77.241
+        },
+        {
+          "name": "India Gate",
+          "latitude": 28.6129,
+          "longitude": 77.2295
+        }
+      ]
+    },
+    {
+      "place_name": "Bengaluru",
+      "latitude": 12.9716,
+      "longitude": 77.5946,
+      "nearby": [
+        {
+          "name": "The Ritz-Carlton",
+          "category": "Hotel",
+          "latitude": 12.964,
+          "longitude": 77.611
+        },
+        {
+          "name": "MTR Restaurant",
+          "category": "Restaurant",
+          "latitude": 12.967,
+          "longitude": 77.598
+        },
+        {
+          "name": "Nagarjuna",
+          "category": "Restaurant",
+          "latitude": 12.935,
+          "longitude": 77.620
+        },
+        {
+          "name": "The Oberoi",
+          "category": "Hotel",
+          "latitude": 12.961,
+          "longitude": 77.600
+        },
+        {
+          "name": "Taj MG Road",
+          "category": "Hotel",
+          "latitude": 12.972,
+          "longitude": 77.610
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Bangalore Palace",
+          "latitude": 12.998,
+          "longitude": 77.566
+        },
+        {
+          "name": "Lalbagh Botanical Garden",
+          "latitude": 12.953,
+          "longitude": 77.584
+        }
+      ]
+    },
+    {
+      "place_name": "Chennai",
+      "latitude": 13.0827,
+      "longitude": 80.2707,
+      "nearby": [
+        {
+          "name": "The Park Chennai",
+          "category": "Hotel",
+          "latitude": 13.085,
+          "longitude": 80.278
+        },
+        {
+          "name": "Annalakshmi",
+          "category": "Restaurant",
+          "latitude": 13.083,
+          "longitude": 80.277
+        },
+        {
+          "name": "Sangeetha",
+          "category": "Restaurant",
+          "latitude": 13.081,
+          "longitude": 80.274
+        },
+        {
+          "name": "The Raintree",
+          "category": "Hotel",
+          "latitude": 13.047,
+          "longitude": 80.228
+        },
+        {
+          "name": "ITC Grand Chola",
+          "category": "Hotel",
+          "latitude": 13.010,
+          "longitude": 80.228
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Marina Beach",
+          "latitude": 13.067,
+          "longitude": 80.282
+        },
+        {
+          "name": "Kapaleeshwarar Temple",
+          "latitude": 13.035,
+          "longitude": 80.282
+        }
+      ]
+    },
+    {
+      "place_name": "Kolkata",
+      "latitude": 22.5726,
+      "longitude": 88.3639,
+      "nearby": [
+        {
+          "name": "The Oberoi Grand",
+          "category": "Hotel",
+          "latitude": 22.572,
+          "longitude": 88.365
+        },
+        {
+          "name": "Peter Cat",
+          "category": "Restaurant",
+          "latitude": 22.563,
+          "longitude": 88.358
+        },
+        {
+          "name": "Flurys",
+          "category": "Restaurant",
+          "latitude": 22.561,
+          "longitude": 88.352
+        },
+        {
+          "name": "Taj Bengal",
+          "category": "Hotel",
+          "latitude": 22.538,
+          "longitude": 88.349
+        },
+        {
+          "name": "The Park Kolkata",
+          "category": "Hotel",
+          "latitude": 22.553,
+          "longitude": 88.347
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Victoria Memorial",
+          "latitude": 22.549,
+          "longitude": 88.349
+        },
+        {
+          "name": "Howrah Bridge",
+          "latitude": 22.595,
+          "longitude": 88.263
+        }
+      ]
+    },
+    {
+      "place_name": "Pune",
+      "latitude": 18.5204,
+      "longitude": 73.8567,
+      "nearby": [
+        {
+          "name": "The Westin Pune Koregaon Park",
+          "category": "Hotel",
+          "latitude": 18.520,
+          "longitude": 73.886
+        },
+        {
+          "name": "Shreyas Restaurant",
+          "category": "Restaurant",
+          "latitude": 18.520,
+          "longitude": 73.897
+        },
+        {
+          "name": "Bangalore Iyer",
+          "category": "Restaurant",
+          "latitude": 18.510,
+          "longitude": 73.860
+        },
+        {
+          "name": "Marriott Pune",
+          "category": "Hotel",
+          "latitude": 18.531,
+          "longitude": 73.846
+        },
+        {
+          "name": "The Corinthians Resort",
+          "category": "Hotel",
+          "latitude": 18.487,
+          "longitude": 73.924
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Aga Khan Palace",
+          "latitude": 18.520,
+          "longitude": 73.874
+        },
+        {
+          "name": "Shaniwar Wada",
+          "latitude": 18.519,
+          "longitude": 73.856
+        }
+      ]
+    },
+    {
+      "place_name": "Jaipur",
+      "latitude": 26.9124,
+      "longitude": 75.7873,
+      "nearby": [
+        {
+          "name": "The Rambagh Palace",
+          "category": "Hotel",
+          "latitude": 26.902,
+          "longitude": 75.803
+        },
+        {
+          "name": "Chokhi Dhani",
+          "category": "Restaurant",
+          "latitude": 26.821,
+          "longitude": 75.818
+        },
+        {
+          "name": "Laxmi Mishthan Bhandar",
+          "category": "Restaurant",
+          "latitude": 26.914,
+          "longitude": 75.819
+        },
+        {
+          "name": "Taj Jai Mahal Palace",
+          "category": "Hotel",
+          "latitude": 26.922,
+          "longitude": 75.812
+        },
+        {
+          "name": "The Oberoi Rajvilas",
+          "category": "Hotel",
+          "latitude": 26.869,
+          "longitude": 75.862
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Amber Fort",
+          "latitude": 26.985,
+          "longitude": 75.851
+        },
+        {
+          "name": "Hawa Mahal",
+          "latitude": 26.925,
+          "longitude": 75.825
+        }
+      ]
+    },
+    {
+      "place_name": "Ahmedabad",
+      "latitude": 23.0225,
+      "longitude": 72.5714,
+      "nearby": [
+        {
+          "name": "The Gateway Hotel",
+          "category": "Hotel",
+          "latitude": 23.022,
+          "longitude": 72.566
+        },
+        {
+          "name": "Agashiye",
+          "category": "Restaurant",
+          "latitude": 23.022,
+          "longitude": 72.576
+        },
+        {
+          "name": "Manek Chowk",
+          "category": "Restaurant",
+          "latitude": 23.029,
+          "longitude": 72.580
+        },
+        {
+          "name": "Taj Skyline",
+          "category": "Hotel",
+          "latitude": 23.027,
+          "longitude": 72.573
+        },
+        {
+          "name": "The House of MG",
+          "category": "Hotel",
+          "latitude": 23.027,
+          "longitude": 72.573
+        }
+      ],
+      "famous_places": [
+        {
+          "name": "Sidi Saiyyed Mosque",
+          "latitude": 23.031,
+          "longitude": 72.581
+        },
+        {
+          "name": "Sabarmati Ashram",
+          "latitude": 23.029,
+          "longitude": 72.571
+        }
+      ]
+    }
+    ,
+        {
+          "place_name": "Tekkali",
+          "latitude": 18.6050174219668, 
+          "longitude": 84.22801437928099,
+          "nearby": [
+            {
+              "name": " Sree Bhavani Restaurent",
+              "category": "Restaurant",
+              "latitude": 18.611203412048543, 
+              "longitude": 84.2356733985124 
+            },
+            {
+              "name": "The Recepies",
+              "category": "Restaurant",
+              "latitude": 18.60757047019189, 
+              "longitude":84.23067570065919
+            },
+            {
+              "name": "Sri Lakshmi Relax Home Lodge",
+              "category": "Hotel",
+              "latitude": 18.607368038831314,
+              "longitude":  84.22674954598298
+            },
+            {
+              "name": "sudarshanna Lodge",
+              "category": "Hotel",
+              "latitude": 18.609482972090458, 
+              "longitude": 84.23164189533843
+            },
+            {
+              "name": "Sitara Lodge",
+              "category": "Hotel",
+              "latitude": 18.6079374465253,
+              "longitude":  84.23018277360083
+            }
+          ],
+          "famous_places": [
+            {
+              "name": "Gajapati Palace",
+              "latitude":18.80008756615035, 
+              "longitude": 84.09924043265988
+            },
+            {
+              "name": "Sangamayya Hill Temple",
+              "latitude":18.46565139739943,
+              "longitude":  83.93993867119183
+            }
+          ]
+        }
+      
+      
+  ]
+  
