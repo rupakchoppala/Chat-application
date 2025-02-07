@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './config.env' });
 
 import  db  from './dbconfig.js';
-import { app } from './app.js';
+import { server } from './app.js';
 
 const port = process.env.PORT_NUMBER;
 if (!port) {
@@ -10,6 +10,6 @@ if (!port) {
     process.exit(1);
 }
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

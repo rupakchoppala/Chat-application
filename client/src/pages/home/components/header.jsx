@@ -12,6 +12,11 @@ const Header=()=>{
         let l=user?.lastname.toUpperCase()[0];
         return f+l;
     }
+    function formatName(user){
+        let fname=user?.firstname.at(0).toUpperCase()+user?.firstname.slice(1).toLowerCase();
+        let lname=user?.lastname.at(0).toUpperCase()+user?.lastname.slice(1).toLowerCase();
+         return fname+' '+lname;
+      }
 return(
     <>
 <div className="app-header">
@@ -20,7 +25,7 @@ return(
           We Chat
         </div>
     <div className="app-user-profile">
-        <div className="logged-user-name">{getFullName()}</div>
+        <div className="logged-user-name">{formatName(user)}</div>
         <div className="logged-user-profile-pic">{getInitials()}</div>
     </div>
 </div>

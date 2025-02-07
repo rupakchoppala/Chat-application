@@ -1,11 +1,14 @@
 import express from 'express';
 import Chat from "./../modules/chat.js";
+import Message  from "./../modules/message.js";
 import authMiddleWare from '../middlewares/authMiddleWare.js';
+//import authMiiddleWare from '../middlewares/authMiddleWare.js';
 const router=express.Router();
 router.post('/create-new-chat',authMiddleWare,async(req,res)=>{
     try{
         const chat=new Chat(req.body);
         const savedChat=await chat.save();
+        await savedChat.populate('members');
         res.status(201).send(
             { 
                 message:"Chat created successfully",
@@ -56,10 +59,9 @@ router.get('/get-all-chat', authMiddleWare, async (req, res) => {
         if (!userId || typeof userId !== 'string') {
             return res.status(400).send({ message: "Invalid userId", success: false });
         }
-
         // Fetch chats
         const allchat = await  Chat.find({ members: { $in: userId } })
-        .populate('members').sort({updatedAt:-1}); 
+        .populate('members').populate('lastMessages').sort({updatedAt:-1}); 
         console.log("Fetched Chats:", allchat);
 
         res.status(201).send({
@@ -75,5 +77,36 @@ router.get('/get-all-chat', authMiddleWare, async (req, res) => {
         });
     }
 });
+router.post('/clear-unread-message',authMiddleWare,async(req,res)=>{
+    
+    try{
+    const chatId=req.body.chatId;
+    const chat=await Chat.findById(chatId);
+    if(!chat){
+        res.send({
+            success:false,
+            message:"chat not found",
+        })
+    }
+    const updatedChat=await Chat.findByIdAndUpdate(chatId,{unreadMessagesCount:0},{new:true})
+    .populate('members').populate('lastMessages');
+    await Message.updateMany({chatId:chatId,read:false},{read:true});
+    res.send({
+        success:true,
+        message:"unread message cleared successsfully",
+        data:updatedChat
+    })
+}
+catch(err){
+    res.send({
+        success:false,
+        message:err.message
+    })
+
+}
+
+
+
+})
 
 export default router;

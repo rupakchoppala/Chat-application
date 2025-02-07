@@ -4,8 +4,10 @@ import { createNewChat } from "../../../apiCalls/chat";
 import { hideLoader, showLoader } from "../../../redux/loaderSlice";
 import { setAllChats, selectedChat } from "../../../redux/userSlice";
 import { useEffect } from "react";
+import moment from "moment";
+import store from "../../../redux/store";
 
-const UserList = ({ searchkey }) => {
+const UserList = ({ searchkey,socket }) => {
   const { allUsers, user: currentUser } = useSelector((state) => state.userReducer);
   const { selectedChats } = useSelector((state) => state.userReducer||{selectedChats:null});
 
@@ -46,38 +48,110 @@ const UserList = ({ searchkey }) => {
   };
 
   const isChatCreated = (userId) =>
-    allChats.some(
+    allChats?.some(
       (chat) =>
-        chat.members.map((m) => m._id).includes(currentUser._id) &&
-        chat.members.map((m) => m._id).includes(userId)
+        chat?.members?.map((m) => m._id).includes(currentUser._id) &&
+        chat?.members?.map((m) => m._id).includes(userId)
     );
 
-  const isSelectedChat = (user) => {
-    if (selectedChats && selectedChats.members) {
-      const isSelected = selectedChats.members.some((m) => m._id === user._id);
-      //console.log(`User ${user._id} selected: ${isSelected}`); // Debug
-      return isSelected;
+    const isSelectedChat = (currentUser) => {
+      if (selectedChats?.members) {
+        const isSelected = selectedChats.members.some(
+          (m) => m?._id === currentUser._id
+        );
+        return isSelected;
+      }
+      return false;
+    };
+    
+  const getLastMessageTimestamp=(userId)=>{
+    const chat=allChats?.find(chat=>chat?.members?.map(m=>m._id).includes(userId));
+    if(!chat || !chat?.lastMessages){
+      return "";
     }
-    return false;
-  };
+    else{
+     return moment(chat?.lastMessages?.createdAt).format('hh:mm:A');
+    }
 
-  const filteredUsers = allUsers.filter((user) => {
-    return (
-      (user.firstname.toLowerCase().includes(searchkey.toLowerCase()) ||
-        user.lastname.toLowerCase().includes(searchkey.toLowerCase())) &&
-        searchkey
-    ) || isChatCreated(user._id);
-  });
+  }
+  const getLastMessage=(userId)=>{
+    const chat=allChats?.find(chat=>chat?.members?.map(m=>m._id).includes(userId));
+    if(!chat || !chat.lastMessages){
+      return "";
+    }
+    else{
+      const messagePrefix=chat?.lastMessages?.sender===currentUser._id?"You:":"";
+      return messagePrefix+chat.lastMessages?.text.substring(0,25);
+    }
+
+  }
+  const getUnreadMessageCount=(userId)=>{
+    const chat=allChats?.find(chat => chat?.members?.map(m=>m._id).includes(userId));
+    if(chat && chat.unreadMessagesCount && chat.lastMessages.sender !== currentUser._id){
+      return  <div className="unread-message-counter">{chat.unreadMessagesCount}</div>;
+    }
+    else{
+      return "";
+    }
+  }
+  
+  function getData() {
+    if (searchkey === "") {
+      return allChats.filter((chat) => chat?.members?.every((m) => m?._id));
+    } else {
+      return allUsers.filter((user) => {
+        return (
+          (user.firstname?.toLowerCase().includes(searchkey.toLowerCase()) ||
+            user.lastname?.toLowerCase().includes(searchkey.toLowerCase())) &&
+          searchkey
+        ) || isChatCreated(user._id);
+      });
+    }
+  }
+  
 
   useEffect(() => {
     if (selectedChats) {
       console.log("Selected chat updated:", selectedChats);
     }
   }, [allChats]);
+  function formatName(user){
+    let fname=user.firstname.at(0).toUpperCase()+user.firstname.slice(1).toLowerCase();
+    let lname=user.lastname.at(0).toUpperCase()+user.lastname.slice(1).toLowerCase();
+     return fname+' '+lname;
+  }
+  useEffect(()=>{
+       socket.on('receive-message',(message)=>{
+         const selectedChat=store.getState().userReducer.selectedChats;
+         const allchats=store.getState().userReducer.allChats;
+         if(selectedChat._id === message.chatId){
+          const updatdChats=allchats?.map(chat=>{
+            if(chat?._id===message.chatId){
+              return {
+                ...chat,
+                unreadMessagesCount:(chat?.unreadMessagesCount||0)+1,
+                lastMessages:message
+              }
+            }
+            return chat;
+          });
+          dispatch(setAllChats(updatdChats));
+         }
+       })
+  },[])
   return (
-    <>
-      {filteredUsers.length > 0 ? (
-        filteredUsers.map((user) => (
+    getData().map((obj) => {
+      let user = obj;
+      if (obj?.members) {
+        user = obj.members.find((mem) => mem?._id !== currentUser?._id);
+      }
+    
+      if (!user?._id) {
+        return null; // Skip invalid users
+      }
+
+        return (
+          
           <div
             className="user-search-filter"
             onClick={() => openChat(user._id)}
@@ -100,8 +174,14 @@ const UserList = ({ searchkey }) => {
 
                 {/* User details */}
                 <div className="filter-user-details">
-                  <div className="user-display-name">{`${user.firstname} ${user.lastname}`}</div>
-                  <div className="user-display-email">{user.email}</div>
+                  <div className="user-display-name">{formatName(user)}</div>
+                  <div className="user-display-email">{getLastMessage(user._id) || user.email}</div>
+                </div>
+                <div>
+                  {getUnreadMessageCount(user._id)}
+                <div className="last-message-timestamp">
+                  {getLastMessageTimestamp(user._id)}
+                </div>
                 </div>
 
                 {/* Start chat button if no chat exists */}
@@ -122,12 +202,10 @@ const UserList = ({ searchkey }) => {
               </div>
             </div>
           </div>
-        ))
-      ) : (
-        <p className="not-found">No users match your search.</p>
-      )}
-    </>
-  );
-};
+        )
+        }
+        )
+  )
+      }
 
 export default UserList;
