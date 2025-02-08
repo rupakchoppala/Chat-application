@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import moment from "moment";
 import store from "../../../redux/store";
 
-const UserList = ({ searchkey,socket }) => {
+const UserList = ({ searchkey,socket ,onlineUsers}) => {
   const { allUsers, user: currentUser } = useSelector((state) => state.userReducer);
   const { selectedChats } = useSelector((state) => state.userReducer||{selectedChats:null});
 
@@ -26,9 +26,7 @@ const UserList = ({ searchkey,socket }) => {
         // Update Redux state
         dispatch(setAllChats([...allChats, newChat]));
         dispatch(selectedChat(newChat));
-  
-        // Reload the page
-        window.location.reload();
+
         
       }
     } catch (error) {
@@ -56,7 +54,7 @@ const UserList = ({ searchkey,socket }) => {
 
     const isSelectedChat = (currentUser) => {
       if (selectedChats?.members) {
-        const isSelected = selectedChats.members.some(
+        const isSelected = selectedChats?.members?.some(
           (m) => m?._id === currentUser._id
         );
         return isSelected;
@@ -97,36 +95,48 @@ const UserList = ({ searchkey,socket }) => {
   
   function getData() {
     if (searchkey === "") {
+      // Show only users from chats if no search key
       return allChats.filter((chat) => chat?.members?.every((m) => m?._id));
     } else {
-      return allUsers.filter((user) => {
-        return (
-          (user.firstname?.toLowerCase().includes(searchkey.toLowerCase()) ||
-            user.lastname?.toLowerCase().includes(searchkey.toLowerCase())) &&
-          searchkey
-        ) || isChatCreated(user._id);
-      });
+      // Combine users from allChats and allUsers, ensuring no duplicates
+      const chatUsers = allChats.map((chat) =>
+        chat?.members.find((m) => m._id !== currentUser._id)
+      );
+  
+      const searchedUsers = allUsers.filter(
+        (user) =>
+          user.firstname?.toLowerCase().includes(searchkey.toLowerCase()) ||
+          user.lastname?.toLowerCase().includes(searchkey.toLowerCase())
+      );
+  
+      // Avoid duplicates by filtering out users already in chatUsers
+      const uniqueUsers = searchedUsers.filter(
+        (user) => !chatUsers.some((chatUser) => chatUser?._id === user._id)
+      );
+  
+      // Combine chat users and unique searched users
+      return [...chatUsers, ...uniqueUsers];
     }
   }
   
 
-  useEffect(() => {
-    if (selectedChats) {
-      console.log("Selected chat updated:", selectedChats);
-    }
-  }, [allChats]);
+  // useEffect(() => {
+  //   if (selectedChats) {
+  //     console.log("Selected chat updated:", selectedChats);
+  //   }
+  // }, [allChats]);
   function formatName(user){
     let fname=user.firstname.at(0).toUpperCase()+user.firstname.slice(1).toLowerCase();
     let lname=user.lastname.at(0).toUpperCase()+user.lastname.slice(1).toLowerCase();
      return fname+' '+lname;
   }
-  useEffect(()=>{
-       socket.on('receive-message',(message)=>{
-         const selectedChat=store.getState().userReducer.selectedChats;
-         const allchats=store.getState().userReducer.allChats;
-         if(selectedChat._id === message.chatId){
-          const updatdChats=allchats?.map(chat=>{
-            if(chat?._id===message.chatId){
+  useEffect(() => {
+    socket.on('receive-message',(message)=>{
+      const selectedChats=store.getState().userReducer.selectedChats;
+      let allChats=store.getState().userReducer.allChats;
+      if(selectedChats?._id !== message.chatId){
+          const updatedChats=allChats?.map(chat =>{
+            if(chat._id === message.chatId){
               return {
                 ...chat,
                 unreadMessagesCount:(chat?.unreadMessagesCount||0)+1,
@@ -135,10 +145,22 @@ const UserList = ({ searchkey,socket }) => {
             }
             return chat;
           });
-          dispatch(setAllChats(updatdChats));
-         }
-       })
-  },[])
+          allChats=updatedChats;
+          
+      }
+      //Find latest chat
+      const latestChats=allChats.allChats.find(chat => chat._id === message.chatId);
+      //get all other chats;
+      const otherChats=allChats.filter(chat=>chat._id !== message.chatId);
+      //new array with latest chat as first elment
+      allChats=[latestChats,...otherChats];
+      dispatch(setAllChats(allChats));
+    })
+    
+  }, [selectedChats]);
+  
+  
+  
   return (
     getData().map((obj) => {
       let user = obj;
@@ -149,13 +171,14 @@ const UserList = ({ searchkey,socket }) => {
       if (!user?._id) {
         return null; // Skip invalid users
       }
+      const uniqueKey = obj?._id ? obj._id : `${currentUser._id}-${user._id}`;
 
         return (
           
           <div
             className="user-search-filter"
             onClick={() => openChat(user._id)}
-            key={user._id}
+            key={currentUser._id}
           >
             <div className={isSelectedChat(user) ? "selected-user" : "filtered-user"}>
               <div className="filter-user-display">
@@ -165,9 +188,11 @@ const UserList = ({ searchkey,socket }) => {
                     src={user.profilePic}
                     alt={`${user.firstname} ${user.lastname} Profile`}
                     className="user-profile-image"
+                    style={onlineUsers.includes(user._id)?{border:'grey 5px solid'}:{}}
                   />
                 ) : (
-                  <div className={isSelectedChat(user) ? "user-selected-avatar" : "user-default-profile-pic"}>
+                  <div className={isSelectedChat(user) ? "user-selected-avatar" : "user-default-profile-pic"}
+                  style={onlineUsers.includes(user._id)?{border:'grey 5px solid'}:{}}>
                     {user.firstname[0].toUpperCase() + user.lastname[0].toUpperCase()}
                   </div>
                 )}

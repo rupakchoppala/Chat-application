@@ -529,7 +529,7 @@ i{
 ******************************************************/
 
 @media only screen and (max-width: 1000px) {
-  .filter-user-details {
+  .filter-user-details,.last-message-timestamp,.unread-message-counter {
     display: none;
   }
   .user-search-area {
@@ -553,4 +553,8 @@ i{
   font-weight: bold;
   height: 25px;
   color: white;
+}
+.typing-indicator{
+  font-size: 13px;
+  color: rgb(164, 197, 115);
 }
