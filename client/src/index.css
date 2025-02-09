@@ -425,6 +425,20 @@ i{
   background-color: transparent;
   margin-top: 10px;
 }
+.send-emoji-btn{
+  position: absolute;
+  right: 50px;
+  font-size: 25px;
+  color:red;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  margin-top: 10px;
+}
+.emoji-container{
+  position: absolute;
+  top: 15%;
+}
 /*******************************************************
 ***************CSS FOR CHAT MESSAGES********************
 ********************************************************/

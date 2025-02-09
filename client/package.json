@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
+    "emoji-picker-react": "^4.12.0",
     "latest": "^0.2.0",
     "moment": "^2.30.1",
     "react": "^19.0.0",

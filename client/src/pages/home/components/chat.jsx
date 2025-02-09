@@ -7,6 +7,7 @@ import store from "../../../redux/store";
 import moment from 'moment';
 import toast from "react-hot-toast";
 import { selectedChat, setAllChats } from "../../../redux/userSlice";
+import EmojiPicker from 'emoji-picker-react';
 
 const Chat = ({socket}) => {
   const { selectedChats, user,allChats } = useSelector((state) => state.userReducer);
@@ -17,6 +18,7 @@ const Chat = ({socket}) => {
   const [message, setMessage] = useState("");
   const[allMessages,setAllMessage]=useState([]);
   const [isTyping,setIsTyping]=useState(false);
+  const [showEmojiPicker,setShowEmojiPicker]=useState(false);
   const formatTime=(timestamp)=>{
     // moment.locale('en'); // Ensure English formatting
 
@@ -50,6 +52,7 @@ const Chat = ({socket}) => {
       const response = await createNewMessage(newmessage);
       if(response.success)
       {setMessage("");
+      setShowEmojiPicker(false);
     } 
     } catch (err) {
       toast.error(err.response?.data?.error || err.message);
@@ -179,6 +182,8 @@ const Chat = ({socket}) => {
         })}
         <div className="typing-indicator" >{isTyping && <i>typing...</i>}</div>
       </div>
+      {showEmojiPicker && <div className="emoji-container"><EmojiPicker onEmojiClick={(e)=>setMessage(message+e.emoji)}></EmojiPicker></div>}
+
       <div className="send-message-div">
     <input type="text" className="send-message-input" 
     placeholder="Type a message" 
@@ -191,6 +196,8 @@ const Chat = ({socket}) => {
        })}
     }
     />
+    <button className="fa fa-smile-o send-emoji-btn" aria-hidden="true"
+    onClick={()=>{setShowEmojiPicker(!showEmojiPicker)}}></button>
     <button className="fa fa-paper-plane send-message-btn" aria-hidden="true"
     onClick={savedMessage}></button>
 </div>
