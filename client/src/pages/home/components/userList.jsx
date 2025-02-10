@@ -130,34 +130,67 @@ const UserList = ({ searchkey,socket ,onlineUsers}) => {
     let lname=user.lastname.at(0).toUpperCase()+user.lastname.slice(1).toLowerCase();
      return fname+' '+lname;
   }
-  useEffect(() => {
-    socket.on('receive-message',(message)=>{
-      const selectedChats=store.getState().userReducer.selectedChats;
-      let allChats=store.getState().userReducer.allChats;
-      if(selectedChats?._id !== message.chatId){
-          const updatedChats=allChats?.map(chat =>{
-            if(chat._id === message.chatId){
-              return {
-                ...chat,
-                unreadMessagesCount:(chat?.unreadMessagesCount||0)+1,
-                lastMessages:message
-              }
-            }
-            return chat;
-          });
-          allChats=updatedChats;
+  // useEffect(() => {
+  //   socket.on('receive-message',(message)=>{
+  //     const selectedChats=store.getState().userReducer.selectedChats;
+  //     let allChats=store.getState().userReducer.allChats;
+  //     if(selectedChats?._id !== message.chatId){
+  //         const updatedChats=allChats?.map(chat =>{
+  //           if(chat._id === message.chatId){
+  //             return {
+  //               ...chat,
+  //               unreadMessagesCount:(chat?.unreadMessagesCount||0)+1,
+  //               lastMessages:message
+  //             }
+  //           }
+  //           return chat;
+  //         });
+  //         allChats=updatedChats;
           
-      }
-      //Find latest chat
-      const latestChats=allChats.allChats.find(chat => chat._id === message.chatId);
-      //get all other chats;
-      const otherChats=allChats.filter(chat=>chat._id !== message.chatId);
-      //new array with latest chat as first elment
-      allChats=[latestChats,...otherChats];
-      dispatch(setAllChats(allChats));
-    })
+  //     }
+  //     //Find latest chat
+  //     const latestChats=allChats.allChats.find(chat => chat._id === message.chatId);
+  //     //get all other chats;
+  //     const otherChats=allChats.filter(chat=>chat._id !== message.chatId);
+  //     //new array with latest chat as first elment
+  //     allChats=[latestChats,...otherChats];
+  //     dispatch(setAllChats(allChats));
+  //   })
     
-  }, [selectedChats]);
+  // }, [selectedChats]);
+  useEffect(() => {
+    const updateMessageCount = (message) => {
+      if (selectedChats?._id !== message.chatId) {
+        const updatedChats = allChats.map((chat) => {
+          if (chat._id === message.chatId) {
+            return {
+              ...chat,
+              unreadMessagesCount: (chat.unreadMessagesCount || 0) + 1,
+              lastMessages: message,
+            };
+          }
+          return chat;
+        });
+
+        // Find the latest chat and rearrange the array
+        const latestChat = updatedChats.find((chat) => chat._id === message.chatId);
+        const otherChats = updatedChats.filter((chat) => chat._id !== message.chatId);
+        const newChatsArray = [latestChat, ...otherChats];
+
+        // Update the state in Redux
+        dispatch(setAllChats(newChatsArray));
+      }
+    };
+
+    // Register socket listener
+    socket.off('set-message-count').on('set-message-count', updateMessageCount);
+
+    // Cleanup on unmount
+    return () => {
+      socket.off('set-message-count');
+    };
+  }, [socket, selectedChats, allChats, dispatch]);
+
   
   
   

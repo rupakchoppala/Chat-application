@@ -1,36 +1,35 @@
-import {BrowserRouter,Routes,Route} from "react-router-dom";
-import Home from "./pages/home";
-import Login from "./pages/login";
-import Signup  from "./pages/signup";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/protectedRoute";
 import Loader from "./components/loader";
-import { useSelector } from "react-redux";
-import { Profile } from "./pages/profile";
+
+// Lazy Load Pages (Code-Splitting)
+const Home = lazy(() => import("./pages/home"));
+const Login = lazy(() => import("./pages/login"));
+const Signup = lazy(() => import("./pages/signup"));
+const Profile = lazy(() => import("./pages/profile"));
+
 function App() {
-  const {loader}=useSelector(state=>state.loaderReducer);
+  const { loader } = useSelector((state) => state.loaderReducer);
 
   return (
     <>
-   
-     <div>
-     <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
-{loader && <Loader/>}
+      <Toaster position="top-center" reverseOrder={false} />
+      {loader && <Loader />}
       <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>}></Route>
-        <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}></Route>
-        <Route path="/login" element={<Login/>}></Route> 
-        <Route path="/signup" element={<Signup/>}> </Route>
-      </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
-
-     </div>
-      </>
-  )
+    </>
+  );
 }
 
-export default App
+export default App;

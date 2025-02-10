@@ -210,6 +210,7 @@ i{
   font-weight: bold;
   padding-top: 10px;
   padding-right: 20px;
+  margin-left: 15px;
 }
 
 .logged-user-profile-pic{
@@ -223,6 +224,7 @@ i{
   text-align: center;
   vertical-align: middle;
   line-height: 40px;
+  cursor: pointer;
 }
 /*******************************************************
 ********CSS FOR SIDEBAR COMPONENT************************
@@ -435,6 +437,16 @@ i{
   background-color: transparent;
   margin-top: 10px;
 }
+.send-image-btn{
+  position: absolute;
+  right: 80px;
+  font-size: 25px;
+  color:red;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  margin-top: 10px;
+}
 .emoji-container{
   position: absolute;
   top: 15%;
@@ -640,4 +652,12 @@ input[type="file"]::file-selector-button:hover {
 input[type="file"]::file-selector-button:active {
   background-color: #e5e7eb;
   color: #28282B;
+}
+.logout-btn{
+  background-color: transparent;
+  color: red;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+
 }

@@ -16,14 +16,18 @@ const  Home=()=>{
             setOnlineUsers(onlineUsers);
 
         })
+        socket.on('online-users-updated',onlineUsers=>{
+            setOnlineUsers(onlineUsers);
+
+        })
         
          }
        //  socket.emit('send-message',{text:'hi durga sai',recipient:'679f9f2a181dfdac5d6eebdd'})
-   },[user])
+   },[user,onlineUsers])
     return(
      <>
      <div className="home-page">
-        <Header/>
+        <Header socket={socket}/>
     <div className="main-content">
         <SideBar socket={socket} onlineUsers={onlineUsers}></SideBar>
        {selectedChats&& <Chat socket={socket}></Chat>}

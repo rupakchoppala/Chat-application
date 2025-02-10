@@ -1,10 +1,15 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { UploadProfilePic } from "../../apiCalls/user";
+import { hideLoader, showLoader } from "../../redux/loaderSlice";
+import toast from "react-hot-toast";
+import { setUser } from "../../redux/userSlice";
 
 export  const Profile=()=>{
   const {user}=useSelector(state=>state.userReducer);
   const [image,setImage]=useState('');
+  const dispatch=useDispatch();
   useEffect(()=>{
         if(user?.profilePic){
           setImage(user.profilePic);
@@ -20,13 +25,42 @@ function formatName(user){
   let lname=user?.lastname.at(0).toUpperCase()+user?.lastname.slice(1).toLowerCase();
    return fname+' '+lname;
 }
-const onFileSelcet=async(e)=>{
-     const file=e.target.files[0];
-     const reader=new FileReader(file);
-     reader.readAsDataURL(file);
-     reader.onloadend=async ()=>{
-      setImage(reader.result);
-     }
+const onFileSelect = (e) => {
+  const file = e.target.files[0];
+  if (!file) {
+      toast.error("No file selected");
+      return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onloadend = () => {
+      console.log("Base64 image generated:", reader.result); // Log the base64 string
+      setImage(reader.result); // Store the base64 string in `image`
+  };
+
+  reader.readAsDataURL(file);
+};
+
+
+const updateProfilePic=async()=>{
+  try{
+    dispatch(showLoader());
+         const response= await UploadProfilePic(image);
+         dispatch(hideLoader());
+         if(response.success){
+          toast.success(response.message)
+          dispatch(setUser(response.data));
+         }
+         else{
+          toast.error(response.message);
+         }
+  }
+  catch(err){
+    toast.error(err.message);
+      dispatch(hideLoader());
+
+  }
 }
   return(
     <>
@@ -53,7 +87,8 @@ const onFileSelcet=async(e)=>{
                 <b>Account Created: </b>{moment(user?.createdAt).format('MMM DD,YYYY')}
             </div>
             <div className="select-profile-pic-container">
-                <input type="file" onChange={onFileSelcet}/>
+                <input type="file" onChange={onFileSelect}/>
+                <button className="upload-img-btn" onClick={updateProfilePic}> upload</button>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 import { useSelector,useDispatch } from "react-redux";
 import {  useNavigate } from "react-router-dom";
-const Header=()=>{
+const Header=({socket})=>{
     const{user}=useSelector(state=>state.userReducer||{});
     const navigate=useNavigate();
     console.log(user);
@@ -19,6 +19,13 @@ const Header=()=>{
         let lname=user?.lastname.at(0).toUpperCase()+user?.lastname.slice(1).toLowerCase();
          return fname+' '+lname;
       }
+
+const logout=()=>{
+    localStorage.removeItem('token');
+    navigate('/login');
+    socket.emit('user-offline',user._id);
+
+}
 return(
     <>
 <div className="app-header">
@@ -27,9 +34,14 @@ return(
           We Chat
         </div>
     <div className="app-user-profile">
+    {user?.profilePic && <img className="logged-user-profile-pic" src={user?.profilePic} alt="Profile" onClick={()=>navigate('/profile')}/>}
+        {!user?.profilePic &&<div className="logged-user-profile-pic" onClick={()=>navigate('/profile')}>{getInitials()}</div>}
+
         <div className="logged-user-name">{formatName(user)}</div>
-        <div className="logged-user-profile-pic" onClick={()=>navigate('/profile')}>{getInitials()}</div>
-    </div>
+        <button className="logout-btn" onClick={logout}>
+        <i className="fa fa-power-off"></i>
+        </button>
+        </div>
 </div>
 </>
 );

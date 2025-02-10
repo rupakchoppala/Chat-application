@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect ,useState} from "react";
 import { createNewMessage ,getAllMessages} from "../../../apiCalls/message";
 import { hideLoader, showLoader } from "../../../redux/loaderSlice";
-import { clearUnreadMessageCount } from "../../../apiCalls/chat";
+import { clearUnreadMessageCount } from "../../../apiCalls/chat"
 import store from "../../../redux/store";
 import moment from 'moment';
 import toast from "react-hot-toast";
@@ -19,6 +19,7 @@ const Chat = ({socket}) => {
   const[allMessages,setAllMessage]=useState([]);
   const [isTyping,setIsTyping]=useState(false);
   const [showEmojiPicker,setShowEmojiPicker]=useState(false);
+  const [data,setData]=useState(null);
   const formatTime=(timestamp)=>{
     // moment.locale('en'); // Ensure English formatting
 
@@ -35,12 +36,13 @@ const Chat = ({socket}) => {
         }
   }
 
-  const savedMessage = async () => {
+  const savedMessage = async (image) => {
     try {
       const newmessage = {
         chatId: selectedChats._id, // Ensure correct `Chat` ID
         sender: user._id,
-        text: message, // Use the state value for message text
+        text: message,
+        image // Use the state value for message text
       };
       socket.emit('send-message',{
         ...newmessage,
@@ -136,6 +138,7 @@ const Chat = ({socket}) => {
       }
     })
     socket.on('started-typing',(data)=>{
+      setData(data)
       if(selectedChats._id === data.chatId && data.sender !== user._id){
         setIsTyping(true);
         setTimeout(()=>{
@@ -159,6 +162,15 @@ const Chat = ({socket}) => {
     let lname=user.lastname.at(0).toUpperCase()+user.lastname.slice(1).toLowerCase();
      return fname+' '+lname;
   }
+  const sendImage=async(e)=>{
+     const file=e.target.files[0];
+     const reader =new FileReader(file);
+     reader.readAsDataURL(file)
+     reader.onloadend=async()=>{
+      savedMessage(reader.result);
+      
+     }
+  }
 
   return (
     <div className="app-chat-area">
@@ -173,14 +185,20 @@ const Chat = ({socket}) => {
         return  <div className="message-container"style={isCurrentUserSender?
         {justifyContent:'end'}:{justifyContent:'start'}} key={user._id}>
           <div>
-          <div className={isCurrentUserSender?"send-message":"received-message"}>{msg.text}</div> 
+          <div className={isCurrentUserSender?"send-message":"received-message"}>
+            <div>{msg.text}</div>
+            <div>{msg.image && <img src={msg.image} alt="image" height="120px" width="120px"/>}
+            </div>
+            </div>
           <div className="message-timestamp" style={isCurrentUserSender?{float:"right"}:{float:"left"}}>
             {formatTime( msg.createdAt)}{isCurrentUserSender && msg.read && <i className='fa fa-check-circle' aria-hidden="true" style={{color:"green"}}></i>}</div>
           </div>
       </div>
 
         })}
-        <div className="typing-indicator" >{isTyping && <i>typing...</i>}</div>
+        <div className="typing-indicator" >{isTyping &&selectedChats.members.
+        map(m=>m._id).includes(data?.sender)
+         && <i>typing...</i>}</div>
       </div>
       {showEmojiPicker && <div className="emoji-container"><EmojiPicker onEmojiClick={(e)=>setMessage(message+e.emoji)}></EmojiPicker></div>}
 
@@ -196,10 +214,16 @@ const Chat = ({socket}) => {
        })}
     }
     />
+    <label htmlFor="file">  <i className="fa fa-picture-o send-image-btn"></i>
+    <input type="file" id="file" style={{display:'none'}} 
+    accept="image/jpeg,image/png,image/jpg,image/gif"
+    onChange={sendImage}/>
+    </label>
+   
     <button className="fa fa-smile-o send-emoji-btn" aria-hidden="true"
     onClick={()=>{setShowEmojiPicker(!showEmojiPicker)}}></button>
     <button className="fa fa-paper-plane send-message-btn" aria-hidden="true"
-    onClick={savedMessage}></button>
+    onClick={()=>savedMessage('')}></button>
 </div>
     </div>
   );

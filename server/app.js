@@ -6,13 +6,14 @@ import UserRoutes from './controllers/userController.js';
 import ChatRoutes from './controllers/chatController.js';
 import MessageRoutes from "./controllers/messageControllers.js";
 const app=express();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' })); // To parse JSON request body, with size limit for large images
+app.use(express.urlencoded({ extended: true ,limit:'50mb'}));
 app.use(cors());
 import {createServer} from 'http';
 import { Server } from 'socket.io';
-import { sourceMapsEnabled } from 'process';
 const server=createServer(app);
-const io=new Server(server,{cors:{
+const io=new Server(server,{
+    cors:{
     origin:'http://localhost:5173',
     methods:['GET','POST']
 }})
@@ -39,6 +40,9 @@ io.on('connection', socket => {
         io.to(message.members[0])
           .to(message.members[1])
           .emit('receive-message', message);
+        io.to(message.members[0])
+          .to(message.members[1])
+          .emit('set-message-count', message);
     });
     socket.on('clear-unread-message',data=>{
         io.to(data.members[0])
@@ -57,6 +61,10 @@ io.on('connection', socket => {
 
             }
             socket.emit('online-users',onLineUser);
+    })
+    socket.on('user-offline',userId=>{
+       onLineUser.splice(onLineUser.indexOf(userId),1);
+        io.emit('online-users-updated',onLineUser);
     })
     
 
