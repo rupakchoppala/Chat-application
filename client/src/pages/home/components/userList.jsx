@@ -17,23 +17,22 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   const dispatch = useDispatch();
 
   const startNewChats = async (searchedUserId) => {
-    try {
-      dispatch(showLoader());
-      const response = await createNewChat([currentUser?._id, searchedUserId]);
-      dispatch(hideLoader());
-      if (response.success) {
-        toast.success(response.message);
-        const newChat = response.data;
-  
-        // Update Redux state
-        dispatch(setAllChats([...allChats, newChat]));
-        dispatch(selectedChat(newChat));
+    let response = null;
+    try{
+        dispatch(showLoader());
+        response =await createNewChat([currentUser._id, searchedUserId]);
+        dispatch(hideLoader());
 
-        
-      }
-    } catch (error) {
-      toast.error(error?.message || "Failed to start chat");
-      dispatch(hideLoader());
+        if(response.success){
+            toast.success(response.message);
+            const newChat = response.data;
+            const updatedChat = [...allChats, newChat]
+            dispatch(setAllChats(updatedChat));
+            dispatch(selectedChat(newChat));
+        }
+    }catch(error){
+        toast.error(response.message);
+        dispatch(hideLoader());
     }
   };
   const openChat = (selectedUserId) => {
@@ -249,20 +248,13 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
                 </div>
 
                 {/* Start chat button if no chat exists */}
-                {!isChatCreated(user?._id) && (
-                  <div className="user-start-chat">
-                    <button
-                      className="user-start-chat-btn"
-                      onClick={async(e) => {
-                        e.stopPropagation(); // Prevent triggering openChat when clicking the button
-                        await startNewChats(user?._id);
-                      }}
-                      disabled={isChatCreated(user?._id)} // Disable button if chat exists
-                    >
-                     Start chat
-                    </button>
-                  </div>
-                )}
+                { !allChats.find(chat => chat?.members?.map(m => m?._id).includes(user?._id)) &&
+                            <div className="user-start-chat">
+                                <button className="user-start-chat-btn" onClick={() => startNewChats(user?._id)}>
+                                    Start Chat
+                                </button>
+                            </div>
+                        }
               </div>
             </div>
           </div>
