@@ -9,7 +9,7 @@ export const getLoggedUser=async()=>{
        return error;
     }
 }
- async function getAllUsers(){
+ export async function getAllUsers(){
   try{
     const response=  await axiosInstance.get('/api/user/get-all-user')
     return response.data;
@@ -17,9 +17,9 @@ export const getLoggedUser=async()=>{
   }
   catch(error){
          return error;
-  }
+  
 }
-export default getAllUsers;
+ }
 export const UploadProfilePic=async(image)=>{
   try{
     const response=  await axiosInstance.post('/api/user/upload-profile-pic',{image})

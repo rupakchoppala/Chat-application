@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { selectedChat, setAllChats } from "../../../redux/userSlice";
 import EmojiPicker from 'emoji-picker-react';
 
-const Chat = ({socket}) => {
+const Chat = ({socket,click}) => {
   const { selectedChats, user,allChats } = useSelector((state) => state.userReducer);
   const dispatch=useDispatch();
 
@@ -48,7 +48,7 @@ const Chat = ({socket}) => {
         ...newmessage,
         members:selectedChats?.members?.map(m=>m._id),
           read:false,
-          createdAt:moment().format('DD-MM-YYYY hh:mm:ss')
+          createdAt:moment().format('YYYY-MMM-DD hh:mm:ss')
       })
      
       const response = await createNewMessage(newmessage);
@@ -173,7 +173,7 @@ const Chat = ({socket}) => {
   }
 
   return (
-    <div className="app-chat-area">
+    <div className={!click?"app-chat-area1 app-chat-area":"app-chat-area"}>
       <div className="app-chat-area-header">
         {/* Receiver's Data */}
         {formatName(selectedUser)}

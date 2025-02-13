@@ -4,10 +4,11 @@ import Chat from "./components/chat";
 import { useSelector } from "react-redux";
 import {io} from 'socket.io-client';
 import { useEffect, useState } from "react";
-const socket=io('http://localhost:3000');
+const socket=io('https://chat-application-server-9ka8.onrender.com');
 const  Home=()=>{
     const{selectedChats,user}=useSelector(state=>state.userReducer);
     const[onlineUsers,setOnlineUsers]=useState([]);
+    const [click,setClick]=useState(false);
    useEffect(()=>{
          if(user){
         socket.emit('join-room',user._id);
@@ -26,11 +27,11 @@ const  Home=()=>{
    },[user,onlineUsers])
     return(
      <>
-     <div className="home-page">
+     <div className="home-page ">
         <Header socket={socket}/>
     <div className="main-content">
-        <SideBar socket={socket} onlineUsers={onlineUsers}></SideBar>
-       {selectedChats&& <Chat socket={socket}></Chat>}
+        <SideBar socket={socket} onlineUsers={onlineUsers} click={click} setClick={setClick}></SideBar>
+       {selectedChats&& <Chat socket={socket} click={click}></Chat>}
          
         {/* <!--CHAT AREA LAYOUT--> */}
     </div>

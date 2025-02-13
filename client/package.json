@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "@tailwindcss/vite": "^4.0.6",
     "axios": "^1.7.9",
     "emoji-picker-react": "^4.12.0",
     "latest": "^0.2.0",
@@ -22,6 +23,7 @@
     "react-router-dom": "^7.0.2",
     "redux": "^5.0.1",
     "socket.io-client": "^4.8.1",
+    "tailwindcss": "^4.0.6",
     "vite-plugin-react": "^4.0.1"
   },
   "devDependencies": {

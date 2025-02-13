@@ -9,7 +9,7 @@ const Header=({socket})=>{
         let lname=user?.lastname.toUpperCase();
         return fname+' '+lname;
     };
-    const getInitials=()=>{
+    const getInitials=(user)=>{
         let f=user?.firstname.toUpperCase()[0];
         let l=user?.lastname.toUpperCase()[0];
         return f+l;
@@ -28,19 +28,21 @@ const logout=()=>{
 }
 return(
     <>
-<div className="app-header">
-    <div className="app-logo">
+<div className="app-header   w-[150px] md:flex-row justify-between items-center p-4 text-white shadow-md">
+    <div className="app-logo w-[190px] md:flex flex justify-start items-center cursor-pointer">
         <i className="fa fa-comments" aria-hidden="true"></i>
           We Chat
         </div>
-    <div className="app-user-profile">
-    {user?.profilePic && <img className="logged-user-profile-pic" src={user?.profilePic} alt="Profile" onClick={()=>navigate('/profile')}/>}
-        {!user?.profilePic &&<div className="logged-user-profile-pic" onClick={()=>navigate('/profile')}>{getInitials()}</div>}
+    <div className="app-user-profile w-[160px] flex justify-between items-center">
+    {user?.profilePic && <img className="logged-user-profile-pic" src={user.profilePic} alt="Profile" onClick={()=>navigate('/profile')}/>}
+        {!user?.profilePic &&<div className="logged-user-profile-pic" onClick={()=>navigate('/profile')}>{getInitials(user)}</div>}
 
-        <div className="logged-user-name">{formatName(user)}</div>
+        <div className="logged-user-name text-small ">{formatName(user)}</div>
+        <div>
         <button className="logout-btn" onClick={logout}>
         <i className="fa fa-power-off"></i>
         </button>
+        </div>
         </div>
 </div>
 </>

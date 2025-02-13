@@ -42,7 +42,7 @@ const onFormSubmit=async(event)=>{
 
     return(
      <>
-     <div className="container">
+     <div className="container md:w-auto sm:w-auto">
         <div className="container-back-img"></div>
         <div className="container-back-color"></div>
         <div className="card">

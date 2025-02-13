@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { createNewChat } from "../../../apiCalls/chat";
 import { hideLoader, showLoader } from "../../../redux/loaderSlice";
 import { setAllChats, selectedChat } from "../../../redux/userSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import store from "../../../redux/store";
 
-const UserList = ({ searchkey,socket ,onlineUsers}) => {
+const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   const { allUsers, user: currentUser } = useSelector((state) => state.userReducer);
   const { selectedChats } = useSelector((state) => state.userReducer||{selectedChats:null});
 
   const { allChats } = useSelector((state) => state.userReducer || { allChats: [] });
+
   const dispatch = useDispatch();
 
   const startNewChats = async (searchedUserId) => {
@@ -43,8 +44,9 @@ const UserList = ({ searchkey,socket ,onlineUsers}) => {
     if (chat) {
       dispatch(selectedChat(chat));
     }
+    setClick(!click)
+    
   };
-
   const isChatCreated = (userId) =>
     allChats?.some(
       (chat) =>
@@ -126,8 +128,8 @@ const UserList = ({ searchkey,socket ,onlineUsers}) => {
   //   }
   // }, [allChats]);
   function formatName(user){
-    let fname=user.firstname.at(0).toUpperCase()+user.firstname.slice(1).toLowerCase();
-    let lname=user.lastname.at(0).toUpperCase()+user.lastname.slice(1).toLowerCase();
+    let fname=user?.firstname.at(0).toUpperCase()+user?.firstname.slice(1).toLowerCase();
+    let lname=user?.lastname.at(0).toUpperCase()+user?.lastname.slice(1).toLowerCase();
      return fname+' '+lname;
   }
   // useEffect(() => {
@@ -165,7 +167,7 @@ const UserList = ({ searchkey,socket ,onlineUsers}) => {
           if (chat._id === message.chatId) {
             return {
               ...chat,
-              unreadMessagesCount: (chat.unreadMessagesCount || 0) + 1,
+              unreadMessagesCount: (chat?.unreadMessagesCount || 0) + 1,
               lastMessages: message,
             };
           }
@@ -195,6 +197,7 @@ const UserList = ({ searchkey,socket ,onlineUsers}) => {
   
   
   return (
+    <div >{
     getData().map((obj) => {
       let user = obj;
       if (obj?.members) {
@@ -209,23 +212,23 @@ const UserList = ({ searchkey,socket ,onlineUsers}) => {
         return (
           
           <div
-            className="user-search-filter"
+            className="user-search-filter  md:w-auto"
             onClick={() => openChat(user._id)}
             key={currentUser._id}
           >
-            <div className={isSelectedChat(user) ? "selected-user" : "filtered-user"}>
+            <div className={isSelectedChat(user) ? "selected-user flex w-auto sm:flex" :click ?"filtered-user1 filtered-user":"filtered-user"}>
               <div className="filter-user-display">
                 {/* Display user profile picture or initials */}
                 {user.profilePic ? (
                   <img
                     src={user.profilePic}
                     alt={`${user.firstname} ${user.lastname} Profile`}
-                    className="user-profile-image"
-                    style={onlineUsers.includes(user._id)?{border:'grey 5px solid'}:{}}
+                    className="user-profile-image w-auto sm:w-10"
+                    style={onlineUsers.includes(user._id)?{border:'yellow 2px solid'}:{}}
                   />
                 ) : (
                   <div className={isSelectedChat(user) ? "user-selected-avatar" : "user-default-profile-pic"}
-                  style={onlineUsers.includes(user._id)?{border:'grey 5px solid'}:{}}>
+                  style={onlineUsers.includes(user._id)?{border:'yellow 2px solid'}:{}}>
                     {user.firstname[0].toUpperCase() + user.lastname[0].toUpperCase()}
                   </div>
                 )}
@@ -260,10 +263,14 @@ const UserList = ({ searchkey,socket ,onlineUsers}) => {
               </div>
             </div>
           </div>
+         
         )
         }
         )
-  )
       }
-
+      </div>
+  )
+      
+    
+    }
 export default UserList;

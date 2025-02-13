@@ -5,8 +5,7 @@ import { UploadProfilePic } from "../../apiCalls/user";
 import { hideLoader, showLoader } from "../../redux/loaderSlice";
 import toast from "react-hot-toast";
 import { setUser } from "../../redux/userSlice";
-
-export  const Profile=()=>{
+ const Profile=()=>{
   const {user}=useSelector(state=>state.userReducer);
   const [image,setImage]=useState('');
   const dispatch=useDispatch();
@@ -15,7 +14,7 @@ export  const Profile=()=>{
           setImage(user.profilePic);
         }
   },[user])
-  const getInitials=()=>{
+  const getInitials=(user)=>{
     let f=user?.firstname.toUpperCase()[0];
     let l=user?.lastname.toUpperCase()[0];
     return f+l;
@@ -64,23 +63,23 @@ const updateProfilePic=async()=>{
 }
   return(
     <>
-    <div className="profile-page-container">
+    <div className="profile-page-container md:w-auto sm:w-[700px] bg-green-100">
         <div className="profile-pic-container">
            { image && <img src={image}
                  alt="Profile Pic" 
                  className="user-profile-pic-upload" 
             /> }
             { !image && <div className="user-default-profile-avatar">
-                {getInitials()}
+                {getInitials(user)}
             </div>
             }
         </div>
 
-        <div className="profile-info-container">
+        <div className="profile-info-container md:w-auto sm:w-[500px]">
             <div className="user-profile-name">
                 <h1>{formatName(user)}</h1>
             </div>
-            <div>
+            <div className="md:w-auto sm:w-auto">
                 <b>Email: </b>{user?.email}
             </div>
             <div>
@@ -88,10 +87,11 @@ const updateProfilePic=async()=>{
             </div>
             <div className="select-profile-pic-container">
                 <input type="file" onChange={onFileSelect}/>
-                <button className="upload-img-btn" onClick={updateProfilePic}> upload</button>
+                <button className="upload-img-btn border-[2px] text-black w-[100px] rounded-lg bg-green-200 mt-[30px] hover:bg-orange-500" onClick={updateProfilePic}> upload</button>
             </div>
         </div>
     </div>
     </>
   )
 }
+export default Profile;

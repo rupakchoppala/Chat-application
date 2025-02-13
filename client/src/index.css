@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import "tailwindcss";
 * {
   margin: 0;
   padding: 0;
@@ -268,9 +269,8 @@ i{
   padding: 10px 10px;
   color: #ffffff;
   cursor: pointer;
-  background-color: rgb(65, 67, 65);
+  background-color: rgb(140, 172, 136);
   border-radius: 8px;
-  
 }
 .selected-user{
   border-bottom: #ccc 1px solid;
@@ -351,7 +351,7 @@ i{
 ********************************************************/
 
 .app-chat-area{
-  background-color: rgb(38, 41, 36);
+  background-color: rgb(228, 247, 216);
   width: 70%;
   padding: 20px 30px;
   border-radius: 10px;
@@ -555,18 +555,81 @@ i{
 ******************************************************/
 
 @media only screen and (max-width: 1000px) {
-  .filter-user-details,.last-message-timestamp,.unread-message-counter {
+  /* .filter-user-details {
+    display: none;
+  } */
+  .user-search-area {
+      width: 320px;
+
+  }
+  .filtered-user1{
     display: none;
   }
-  .user-search-area {
-      display: none;
+  .user-search-filter1{
+    position: absolute;
+    top:20%;
+    width:320px;
+
+  }
+  .user-search-filter{
+    width:320px;
+  }
+  .emoji-container{
+    top:10%;
+    bottom: 40%;
+    left: 10%;
+    right: 5%;
+    height: 100px;
+    width: 500px;
+  }
+  .phone-view-userlist {
+    width: 320px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 5 columns of equal width */
+    gap:15px; /* Optional: Add spacing between grid items */
   }
   .app-sidebar{
       width: 15%;
+      display: flex;
+      flex-direction:column;
   }
   .app-chat-area{
-      width: 85%
+      position:absolute;
+      top:30%;
+      right: 15px;
+      left: 22px;
+      bottom: 100px;
+      width: 90%;
+      height: 55%;
   }
+  .app-chat-area1{
+    display: none;
+  }
+  .profile-page-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 780px;
+    height: 350px;
+    color: #28282B;
+    border-radius: 10px;
+    gap:20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  .profile-info-container{
+    display: flex;
+    font-size: 13px;
+    flex-direction: column;
+    width:auto;
+    gap: 10px;
+  }
+  .select-profile-pic-container{
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
 }
 .unread-message-counter{
   text-align: center;
