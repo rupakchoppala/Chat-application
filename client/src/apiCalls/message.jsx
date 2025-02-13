@@ -3,6 +3,9 @@ export const createNewMessage = async (message) => {
     try {
       // Send the message object directly, not wrapped in a `message` key
       const response = await axiosInstance.post('/api/message/new-message', message);
+      if(response.data.image){
+        console.log(image);
+      }
       return response.data;
     } catch (error) {
       throw error; // Re-throw error for proper error handling
