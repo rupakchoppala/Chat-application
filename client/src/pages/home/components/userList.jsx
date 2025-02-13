@@ -49,11 +49,12 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
     
   };
   const isChatCreated = (userId) =>
-    allChats?.some(
-      (chat) =>
-        chat?.members?.map((m) => m?._id).includes(currentUser?._id) &&
-        chat?.members?.map((m) => m?._id).includes(userId)
-    );
+  allChats?.some(
+    (chat) =>
+      chat?.members?.some((m) => m?._id === currentUser?._id) && // Check if current user is a member
+      chat?.members?.some((m) => m?._id === userId)             // Check if target user is a member
+  );
+
 
     const isSelectedChat = (currentUser) => {
       if (selectedChats?.members) {
