@@ -88,7 +88,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   const getUnreadMessageCount=(userId)=>{
     const chat=allChats?.find(chat => chat?.members?.map(m=>m._id).includes(userId));
     if(chat && chat.unreadMessagesCount && chat.lastMessages.sender !== currentUser._id){
-      return  <div className="unread-message-counter">{chat.unreadMessagesCount}</div>;
+      return  <div className="unread-message-counter">{chat?.unreadMessagesCount}</div>;
     }
     else{
       return "";
