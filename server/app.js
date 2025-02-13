@@ -14,7 +14,7 @@ import { Server } from 'socket.io';
 const server=createServer(app);
 const io=new Server(server,{
     cors:{
-    origin:'http://localhost:5173',
+    origin:'https://chat-application-frontend-3ioc.onrender.com/',
     methods:['GET','POST']
 }})
 const onLineUser=[];
