@@ -34,7 +34,6 @@ const onFileSelect = (e) => {
   const reader = new FileReader();
 
   reader.onloadend = () => {
-      console.log("Base64 image generated:", reader.result); // Log the base64 string
       setImage(reader.result); // Store the base64 string in `image`
   };
 

@@ -20,10 +20,8 @@ const onFormSubmit=async(event)=>{
     
         try {
           dispatch(showLoader());
-          console.log("Sending user data:", user); // Debug
           const response = await loginUser(user);
           dispatch(hideLoader());
-          console.log("API response:", response); // Debug
           if (response.success) {
             toast.success(response.message);
             localStorage.setItem('token',response.token);
@@ -33,7 +31,6 @@ const onFormSubmit=async(event)=>{
           }
         } catch (error) {
           dispatch(hideLoader());
-          console.error("Error in onFormSubmit:", error); // Log the error
           toast.error(`Error: ${error.message || "Something went wrong"}`);
         }
       };

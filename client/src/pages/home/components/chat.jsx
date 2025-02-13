@@ -63,14 +63,10 @@ const Chat = ({socket,click}) => {
   
   const getMessages = async () => {
     try {
-      //dispatch(showLoader());
       const response = await getAllMessages(selectedChats._id);
-     // dispatch(hideLoader());
-      //console.log(response.data);
       if(response.success){
-     // console.log('Message saved:', response);
       setAllMessage(response.data);
-      } // Clear input field on success
+      } 
     } catch (err) {
       dispatch(hideLoader());
       toast.error(err.response?.data?.error || err.message);
