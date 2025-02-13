@@ -161,6 +161,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
     
   // }, [selectedChats]);
   useEffect(() => {
+    if (!socket || !allChats) return; 
     const updateMessageCount = (message) => {
       if (selectedChats?._id !== message?.chatId) {
         const updatedChats = allChats?.map((chat) => {
@@ -191,7 +192,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
     return () => {
       socket.off('set-message-count');
     };
-  }, []);
+  }, [socket, selectedChats, allChats, dispatch]);
 
   
   
