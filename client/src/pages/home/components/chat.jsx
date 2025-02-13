@@ -57,7 +57,7 @@ const Chat = ({socket,click}) => {
       setShowEmojiPicker(false);
     } 
     } catch (err) {
-      toast.error("hello" ,err.response?.data?.error || err.message);
+      toast.error("hello",err.response?.data?.error || err.message);
     }
   };
   
@@ -161,31 +161,15 @@ const Chat = ({socket,click}) => {
     let lname=user.lastname.at(0).toUpperCase()+user.lastname.slice(1).toLowerCase();
      return fname+' '+lname;
   }
-  const sendImage = async (e) => {
-    const file = e.target.files[0]; // Get the selected file
-  
-    if (!file) {
-      toast.error("No file selected");
-      return;
+  const sendImage=async(e)=>{
+    const file=e.target.files[0];
+    const reader =new FileReader(file);
+    reader.readAsDataURL(file)
+    reader.onloadend=async()=>{
+     savedMessage(reader.result);
+     
     }
-  
-    const reader = new FileReader();
-  
-    // Read the file as a Base64 string
-    reader.readAsDataURL(file);
-  
-    reader.onloadend = async () => {
-      try {
-        await savedMessage(reader.result); // Pass the Base64 string to `savedMessage`
-      } catch (err) {
-        toast.error("Failed to send image");
-      }
-    };
-  
-    reader.onerror = () => {
-      toast.error("Error reading file");
-    };
-  };
+ }
   
 
   return (

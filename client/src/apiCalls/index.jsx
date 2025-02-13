@@ -6,3 +6,4 @@ export const axiosInstance = axios.create({
       authorization:`Bearer ${localStorage.getItem('token')}`
     },
   });
+
