@@ -12,6 +12,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   const { selectedChats } = useSelector((state) => state.userReducer||{selectedChats:null});
 
   const { allChats } = useSelector((state) => state.userReducer || { allChats: [] });
+  const [isCreatingChat, setIsCreatingChat] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -250,15 +251,19 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
                 {!isChatCreated(user?._id) && (
                   <div className="user-start-chat">
                     <button
-                      className="user-start-chat-btn"
-                      onClick={async(e) => {
-                        e.stopPropagation(); // Prevent triggering openChat when clicking the button
-                        await startNewChats(user?._id);
+                            className="user-start-chat-btn"
+                            onClick={async (e) => {
+                             e.stopPropagation();
+                       if (!isCreatingChat) {
+                       setIsCreatingChat(true); // Disable button
+                      await startNewChats(user?._id);
+                         setIsCreatingChat(false); // Re-enable button after chat creation
+                                             }
                       }}
-                      disabled={isChatCreated(user?._id)} // Disable button if chat exists
-                    >
-                      {isChatCreated(user?._id) ? "Chat Created" : "Start Chat"}
-                    </button>
+                         disabled={isCreatingChat || isChatCreated(user?._id)} // Disable if creating or already created
+>
+  {isChatCreated(user?._id) ? "Chat Created" : "Start Chat"}
+</button>;
                   </div>
                 )}
               </div>
