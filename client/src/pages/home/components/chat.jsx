@@ -57,7 +57,7 @@ const Chat = ({socket,click}) => {
       setShowEmojiPicker(false);
     } 
     } catch (err) {
-      toast.error(err.response?.data?.error || err.message);
+      toast.error("hello" ,err.response?.data?.error || err.message);
     }
   };
   
