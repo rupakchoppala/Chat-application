@@ -47,12 +47,12 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
     setClick(!click)
     
   };
-  const isChatCreated = (userId) =>
-  allChats?.some(
-    (chat) =>
-      chat?.members?.some((m) => m?._id === currentUser?._id) && // Check if current user is a member
-      chat?.members?.some((m) => m?._id === userId)             // Check if target user is a member
-  );
+  // const isChatCreated = (userId) =>
+  // allChats?.some(
+  //   (chat) =>
+  //     chat?.members?.some((m) => m?._id === currentUser?._id) && // Check if current user is a member
+  //     chat?.members?.some((m) => m?._id === userId)             // Check if target user is a member
+  // );
 
 
     const isSelectedChat = (currentUser) => {
@@ -248,13 +248,24 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
                 </div>
 
                 {/* Start chat button if no chat exists */}
-                { !allChats.find(chat => chat?.members?.map(m => m?._id).includes(user?._id)) &&
-                            <div className="user-start-chat">
-                                <button className="user-start-chat-btn" onClick={() => startNewChats(user?._id)}>
-                                    Start Chat
-                                </button>
-                            </div>
-                        }
+                {
+  !allChats.find(
+    (chat) =>
+      chat?.members?.length === 2 && // Ensure it's a one-on-one chat
+      chat?.members?.some((m) => m._id === currentUser?._id) && // Current user is part of the chat
+      chat?.members?.some((m) => m._id === user?._id) // Target user is part of the chat
+  ) && (
+    <div className="user-start-chat">
+      <button
+        className="user-start-chat-btn"
+        onClick={() => startNewChats(user?._id)}
+      >
+        Start Chat
+      </button>
+    </div>
+  )
+}
+
               </div>
             </div>
           </div>
