@@ -259,7 +259,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
                       }}
                       disabled={isChatCreated(user?._id)} // Disable button if chat exists
                     >
-                      {isChatCreated(user?._id) ? "Chat Created" : "Start Chat"}
+                     Start chat
                     </button>
                   </div>
                 )}
