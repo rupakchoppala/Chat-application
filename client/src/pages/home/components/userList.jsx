@@ -191,7 +191,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
     return () => {
       socket.off('set-message-count');
     };
-  }, [socket, selectedChats, allChats, dispatch]);
+  }, []);
 
   
   

@@ -199,17 +199,38 @@ const Chat = ({socket,click}) => {
       {showEmojiPicker && <div className="emoji-container"><EmojiPicker onEmojiClick={(e)=>setMessage(message+e.emoji)}></EmojiPicker></div>}
 
       <div className="send-message-div">
-    <input type="text" className="send-message-input" 
-    placeholder="Type a message" 
-    value={message}
-    onChange={(e)=>{setMessage(e.target.value)
-       socket.emit('user-typing',{
-        chatId:selectedChats._id,
-        members:selectedChats.members.map(m=>m._id),
-        sender:user._id
-       })}
+      <input
+  type="text"
+  className="send-message-input"
+  placeholder="Type a message"
+  value={message}
+  onChange={(e) => {
+    setMessage(e.target.value);
+    socket.emit('user-typing', {
+      chatId: selectedChats._id,
+      members: selectedChats.members.map((m) => m._id),
+      sender: user._id,
+    });
+  }}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' && message.trim() !== '') {
+      // Prevent default behavior of Enter (like form submission)
+      e.preventDefault();
+
+      // Emit the message
+      socket.emit('send-message', {
+        chatId: selectedChats._id,
+        members: selectedChats.members.map((m) => m._id),
+        sender: user._id,
+        text: message,
+      });
+
+      // Clear the input field
+      setMessage('');
     }
-    />
+  }}
+/>
+
     <label htmlFor="file">  <i className="fa fa-picture-o send-image-btn"></i>
     <input type="file" id="file" style={{display:'none'}} 
     accept="image/jpeg,image/png,image/jpg,image/gif"
