@@ -42,7 +42,7 @@ const Chat = ({socket,click}) => {
         chatId: selectedChats._id, // Ensure correct `Chat` ID
         sender: user._id,
         text: message,
-        image // Use the state value for message text
+        image// Use the state value for message text
       };
       socket.emit('send-message',{
         ...newmessage,
@@ -84,7 +84,6 @@ const Chat = ({socket,click}) => {
       })
 
       const response = await clearUnreadMessageCount(selectedChats._id);
-     
       if(response.success){
           allChats?.map(chat=>{
             if(chat?._id===selectedChats._id){
@@ -162,15 +161,32 @@ const Chat = ({socket,click}) => {
     let lname=user.lastname.at(0).toUpperCase()+user.lastname.slice(1).toLowerCase();
      return fname+' '+lname;
   }
-  const sendImage=async(e)=>{
-     const file=e.target.files[0];
-     const reader =new FileReader(file);
-     reader.readAsDataURL(file)
-     reader.onloadend=async()=>{
-      savedMessage(reader.result);
-      
-     }
-  }
+  const sendImage = async (e) => {
+    const file = e.target.files[0]; // Get the selected file
+  
+    if (!file) {
+      toast.error("No file selected");
+      return;
+    }
+  
+    const reader = new FileReader();
+  
+    // Read the file as a Base64 string
+    reader.readAsDataURL(file);
+  
+    reader.onloadend = async () => {
+      try {
+        await savedMessage(reader.result); // Pass the Base64 string to `savedMessage`
+      } catch (err) {
+        toast.error("Failed to send image");
+      }
+    };
+  
+    reader.onerror = () => {
+      toast.error("Error reading file");
+    };
+  };
+  
 
   return (
     <div className={!click?"app-chat-area1 app-chat-area":"app-chat-area"}>
