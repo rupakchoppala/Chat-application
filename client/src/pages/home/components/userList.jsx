@@ -18,7 +18,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   const startNewChats = async (searchedUserId) => {
     try {
       dispatch(showLoader());
-      const response = await createNewChat([currentUser._id, searchedUserId]);
+      const response = await createNewChat([currentUser?._id, searchedUserId]);
       dispatch(hideLoader());
       if (response.success) {
         toast.success(response.message);
@@ -38,8 +38,8 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   const openChat = (selectedUserId) => {
     const chat = allChats.find(
       (chat) =>
-        chat.members.map((m) => m._id).includes(currentUser._id) &&
-        chat.members.map((m) => m._id).includes(selectedUserId)
+        chat?.members?.map((m) => m?._id).includes(currentUser?._id) &&
+        chat?.members?.map((m) => m?._id).includes(selectedUserId)
     );
     if (chat) {
       dispatch(selectedChat(chat));
@@ -50,14 +50,14 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   const isChatCreated = (userId) =>
     allChats?.some(
       (chat) =>
-        chat?.members?.map((m) => m._id).includes(currentUser._id) &&
-        chat?.members?.map((m) => m._id).includes(userId)
+        chat?.members?.map((m) => m?._id).includes(currentUser?._id) &&
+        chat?.members?.map((m) => m?._id).includes(userId)
     );
 
     const isSelectedChat = (currentUser) => {
       if (selectedChats?.members) {
         const isSelected = selectedChats?.members?.some(
-          (m) => m?._id === currentUser._id
+          (m) => m?._id === currentUser?._id
         );
         return isSelected;
       }
@@ -65,7 +65,7 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
     };
     
   const getLastMessageTimestamp=(userId)=>{
-    const chat=allChats?.find(chat=>chat?.members?.map(m=>m._id).includes(userId));
+    const chat=allChats?.find(chat=>chat?.members?.map(m=>m?._id).includes(userId));
     if(!chat || !chat?.lastMessages){
       return "";
     }
@@ -75,19 +75,19 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
 
   }
   const getLastMessage=(userId)=>{
-    const chat=allChats?.find(chat=>chat?.members?.map(m=>m._id).includes(userId));
-    if(!chat || !chat.lastMessages){
+    const chat=allChats?.find(chat=>chat?.members?.map(m=>m?._id).includes(userId));
+    if(!chat || !chat?.lastMessages){
       return "";
     }
     else{
-      const messagePrefix=chat?.lastMessages?.sender===currentUser._id?"You:":"";
-      return messagePrefix+chat.lastMessages?.text.substring(0,25);
+      const messagePrefix=chat?.lastMessages?.sender===currentUser?._id?"You:":"";
+      return messagePrefix+chat?.lastMessages?.text?.substring(0,25);
     }
 
   }
   const getUnreadMessageCount=(userId)=>{
-    const chat=allChats?.find(chat => chat?.members?.map(m=>m._id).includes(userId));
-    if(chat && chat.unreadMessagesCount && chat.lastMessages.sender !== currentUser._id){
+    const chat=allChats?.find(chat => chat?.members?.map(m=>m?._id).includes(userId));
+    if(chat && chat?.unreadMessagesCount && chat?.lastMessages?.sender !== currentUser?._id){
       return  <div className="unread-message-counter">{chat?.unreadMessagesCount}</div>;
     }
     else{
@@ -98,22 +98,22 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   function getData() {
     if (searchkey === "") {
       // Show only users from chats if no search key
-      return allChats.filter((chat) => chat?.members?.every((m) => m?._id));
+      return allChats?.filter((chat) => chat?.members?.every((m) => m?._id));
     } else {
       // Combine users from allChats and allUsers, ensuring no duplicates
-      const chatUsers = allChats.map((chat) =>
-        chat?.members.find((m) => m._id !== currentUser._id)
+      const chatUsers = allChats?.map((chat) =>
+        chat?.members?.find((m) => m?._id !== currentUser?._id)
       );
   
-      const searchedUsers = allUsers.filter(
+      const searchedUsers = allUsers?.filter(
         (user) =>
-          user.firstname?.toLowerCase().includes(searchkey.toLowerCase()) ||
-          user.lastname?.toLowerCase().includes(searchkey.toLowerCase())
+          user?.firstname?.toLowerCase().includes(searchkey.toLowerCase()) ||
+          user?.lastname?.toLowerCase().includes(searchkey.toLowerCase())
       );
   
       // Avoid duplicates by filtering out users already in chatUsers
       const uniqueUsers = searchedUsers.filter(
-        (user) => !chatUsers.some((chatUser) => chatUser?._id === user._id)
+        (user) => !chatUsers?.some((chatUser) => chatUser?._id === user?._id)
       );
   
       // Combine chat users and unique searched users
@@ -162,9 +162,9 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   // }, [selectedChats]);
   useEffect(() => {
     const updateMessageCount = (message) => {
-      if (selectedChats?._id !== message.chatId) {
-        const updatedChats = allChats.map((chat) => {
-          if (chat._id === message.chatId) {
+      if (selectedChats?._id !== message?.chatId) {
+        const updatedChats = allChats?.map((chat) => {
+          if (chat?._id === message?.chatId) {
             return {
               ...chat,
               unreadMessagesCount: (chat?.unreadMessagesCount || 0) + 1,
@@ -175,8 +175,8 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
         });
 
         // Find the latest chat and rearrange the array
-        const latestChat = updatedChats.find((chat) => chat._id === message.chatId);
-        const otherChats = updatedChats.filter((chat) => chat._id !== message.chatId);
+        const latestChat = updatedChats?.find((chat) => chat?._id === message?.chatId);
+        const otherChats = updatedChats?.filter((chat) => chat?._id !== message?.chatId);
         const newChatsArray = [latestChat, ...otherChats];
 
         // Update the state in Redux
@@ -198,65 +198,65 @@ const UserList = ({ searchkey,socket ,onlineUsers,click,setClick}) => {
   
   return (
     <div >{
-    getData().map((obj) => {
+    getData()?.map((obj) => {
       let user = obj;
       if (obj?.members) {
-        user = obj.members.find((mem) => mem?._id !== currentUser?._id);
+        user = obj?.members.find((mem) => mem?._id !== currentUser?._id);
       }
     
       if (!user?._id) {
         return null; // Skip invalid users
       }
-      const uniqueKey = obj?._id ? obj._id : `${currentUser._id}-${user._id}`;
+      const uniqueKey = obj?._id ? obj._id : `${currentUser?._id}-${user?._id}`;
 
         return (
           
           <div
             className="user-search-filter  md:w-auto"
-            onClick={() => openChat(user._id)}
-            key={currentUser._id}
+            onClick={() => openChat(user?._id)}
+            key={currentUser?._id}
           >
             <div className={isSelectedChat(user) ? "selected-user flex w-auto sm:flex" :click ?"filtered-user1 filtered-user":"filtered-user"}>
               <div className="filter-user-display">
                 {/* Display user profile picture or initials */}
-                {user.profilePic ? (
+                {user?.profilePic ? (
                   <img
-                    src={user.profilePic}
-                    alt={`${user.firstname} ${user.lastname} Profile`}
+                    src={user?.profilePic}
+                    alt={`${user?.firstname} ${user?.lastname} Profile`}
                     className="user-profile-image w-auto sm:w-10"
-                    style={onlineUsers.includes(user._id)?{border:'yellow 2px solid'}:{}}
+                    style={onlineUsers.includes(user?._id)?{border:'yellow 2px solid'}:{}}
                   />
                 ) : (
                   <div className={isSelectedChat(user) ? "user-selected-avatar" : "user-default-profile-pic"}
-                  style={onlineUsers.includes(user._id)?{border:'yellow 2px solid'}:{}}>
-                    {user.firstname[0].toUpperCase() + user.lastname[0].toUpperCase()}
+                  style={onlineUsers?.includes(user?._id)?{border:'yellow 2px solid'}:{}}>
+                    {user?.firstname[0].toUpperCase() + user?.lastname[0].toUpperCase()}
                   </div>
                 )}
 
                 {/* User details */}
                 <div className="filter-user-details">
                   <div className="user-display-name">{formatName(user)}</div>
-                  <div className="user-display-email">{getLastMessage(user._id) || user.email}</div>
+                  <div className="user-display-email">{getLastMessage(user?._id) || user?.email}</div>
                 </div>
                 <div>
-                  {getUnreadMessageCount(user._id)}
+                  {getUnreadMessageCount(user?._id)}
                 <div className="last-message-timestamp">
-                  {getLastMessageTimestamp(user._id)}
+                  {getLastMessageTimestamp(user?._id)}
                 </div>
                 </div>
 
                 {/* Start chat button if no chat exists */}
-                {!isChatCreated(user._id) && (
+                {!isChatCreated(user?._id) && (
                   <div className="user-start-chat">
                     <button
                       className="user-start-chat-btn"
                       onClick={async(e) => {
                         e.stopPropagation(); // Prevent triggering openChat when clicking the button
-                        await startNewChats(user._id);
+                        await startNewChats(user?._id);
                       }}
-                      disabled={isChatCreated(user._id)} // Disable button if chat exists
+                      disabled={isChatCreated(user?._id)} // Disable button if chat exists
                     >
-                      {isChatCreated(user._id) ? "Chat Created" : "Start Chat"}
+                      {isChatCreated(user?._id) ? "Chat Created" : "Start Chat"}
                     </button>
                   </div>
                 )}
